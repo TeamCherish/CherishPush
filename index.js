@@ -83,37 +83,48 @@ const j = schedule.scheduleJob('10,30,50 * * * * *', async function () {
     flag = 2;
   } else if (flag === 2) {
     // 연락후기 알림을 보내줄 APP_PUSH_USER 정보를 가져옵니다.
-    // const result = await axios.get(`${config.CHERISH_URL}push/REV`);
-    const fcm_data = {
-      registration_ids: [
-        'fGYsP2a1QGa3-ykBH4xtI5:APA91bH15S_SUKYXWXitctBsDbUHxCH-KKDpOF5R7VMI32D2mRmH1KTYmDDL9VJEXykFKIaPAABFiuI9Iefj521lLnp1W9n1boYHKw6-adYFsrM61QeMkr_tIe0Oxq_W3ZG_Pyy6rjmC',
-        'd2eG6B9_SbC-XhrWYFS8rJ:APA91bERUw3B-3ArIrfXoJVZuoydZLGT2-Ihu2daCUfO9NekEf-F1BhP0P8-7d6tvAzw_rZx1otwWMHDauFcxR9k_QT2p99cJhQOUXjNZyONt6KwFHFj_ZCuMfGMq2XejpmLXMqORaGd',
-        '5d8a16396093f75924970bf641e33c0bbb0abe96fbd747ef26b8f8b9159ffc3c',
-      ],
-      collapse_key,
-      priority,
-      content_available,
-      time_to_live,
-      mutable_content,
-    };
+    // 물주기 알림을 보내줄 APP_PUSH_USER 정보를 가져옵니다.
+    const result = await axios.get(`${config.CHERISH_URL}push/REV`);
+    result.data.data.map((data) => {
+      const fcm_data = {
+        registration_ids: [data.mobile_device_token],
+        collapse_key,
+        priority,
+        content_available,
+        time_to_live,
+        mutable_content,
+      };
 
-    if (mobile_os_code === 'I') {
-      fcm_data.notification = {
-        title: 'Title of your push notification',
-        body: 'Body of your push notification',
-      };
-    } else {
-      fcm_data.data = {
-        title: 'Title of your push notification',
-        body: 'Body of your push notification',
-      };
-    }
-    fcm.send(fcm_data, (error, response) => {
-      if (error) {
-        console.log('error');
-        console.log(error);
+      if (mobile_os_code === 'I') {
+        fcm_data.notification = {
+          title: '연락후기를 등록하세요.',
+          // body: 'Body of your push notification',
+        };
       } else {
-        console.log('send', response);
+        fcm_data.data = {
+          title: '연락후기를 등록하세요.',
+          // body: 'Body of your push notification',
+        };
+      }
+      fcm.send(fcm_data, (error, response) => {
+        if (error) {
+          console.log('error');
+          console.log(error);
+        } else {
+          console.log('send', response);
+        }
+      });
+      const CherishId = data.CherishId;
+      const body = {
+        CherishId,
+      };
+      console.log(body);
+      try {
+        axios.put(`${config.CHERISH_URL}pushReview`, body);
+        console.log('[REVIEW 알림] sendYN UPDATE 성공');
+      } catch (error) {
+        console.log('[REVIEW 알림] sendYN 업데이트 실패');
+        throw error;
       }
     });
     flag = 1;
