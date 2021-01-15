@@ -12,7 +12,7 @@ const mobile_os_code = 'I';
 const fcm_data = {
   registration_ids: [
     // 'fzhBh45mR2K34d19q_OYAl:APA91bECchzR7LcumNmkGDoe7EKG4wdV57sh_LRRDwU-6VZCrQofJP4ZbOs9GYWE0OfQluHI9i9HmAv6ul5793R43H2TP3nHehhtHpuJRLkMwiFWLjXjFUYIXjHM1NYhSb1ZEeejXX7J',
-    'dWOQ1kWS90mbvbZ0bO5Gpr:APA91bH-qW-ge1rtTEjt0LZbhG4_SNV2kCyU6y4f5TWaI18gvPpL_E8hrzkXL9SbWK5n6KUjC1TJ8YxadK_okMqlipP3r-x8OUYu0fxy_dvA3QO5uMGsnZ6ikg1ABI_N8dTY38pDnbCf',
+    // 'dWOQ1kWS90mbvbZ0bO5Gpr:APA91bH-qW-ge1rtTEjt0LZbhG4_SNV2kCyU6y4f5TWaI18gvPpL_E8hrzkXL9SbWK5n6KUjC1TJ8YxadK_okMqlipP3r-x8OUYu0fxy_dvA3QO5uMGsnZ6ikg1ABI_N8dTY38pDnbCf',
   ],
   collapse_key,
   priority,

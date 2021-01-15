@@ -17,7 +17,7 @@ const collapse_key = '';
 const mobile_os_code = 'I';
 let flag = 1; // 1이면 COM, 2면 REV
 const j = schedule.scheduleJob('10,30,50 * * * * *', async function () {
-  console.log(`현재 시각 ${dayjs().format('YYYY-MM-DD hh:mm:ss')} 입니다.`);
+  console.log(`시작 시각 ${dayjs().format('YYYY-MM-DD hh:mm:ss')} 입니다.`);
   if (flag === 1) {
     // 물주기 알림을 보내줄 APP_PUSH_USER 정보를 가져옵니다.
     const registration_ids = [];
@@ -41,17 +41,15 @@ const j = schedule.scheduleJob('10,30,50 * * * * *', async function () {
         const body = {
           CherishId,
         };
-        console.log(body);
         try {
           axios.put(`${config.CHERISH_URL}push`, body);
-          console.log('sendYN UPDATE 성공');
+          console.log(`[연락 알림] ${CherishId} sendYN UPDATE 성공`);
         } catch (error) {
-          console.log('sendYN 업데이트 실패');
+          console.log(`[연락 알림] ${CherishId} sendYN 업데이트 실패`);
           throw error;
         }
       });
     }
-    console.log(registration_ids);
     const fcm_data = {
       registration_ids: registration_ids,
       collapse_key,
@@ -108,7 +106,6 @@ const j = schedule.scheduleJob('10,30,50 * * * * *', async function () {
       }
       fcm.send(fcm_data, (error, response) => {
         if (error) {
-          console.log('error');
           console.log(error);
         } else {
           console.log('send', response);
@@ -118,17 +115,17 @@ const j = schedule.scheduleJob('10,30,50 * * * * *', async function () {
       const body = {
         CherishId,
       };
-      console.log(body);
       try {
         axios.put(`${config.CHERISH_URL}pushReview`, body);
-        console.log('[REVIEW 알림] sendYN UPDATE 성공');
+        console.log(`[물주기 알림] ${CherishId} sendYN UPDATE 성공`);
       } catch (error) {
-        console.log('[REVIEW 알림] sendYN 업데이트 실패');
+        console.log(`[물주기 알림] ${CherishId} sendYN 업데이트 실패`);
         throw error;
       }
     });
     flag = 1;
   }
+  console.log(`시작 시각 ${dayjs().format('YYYY-MM-DD hh:mm:ss')} 입니다.`);
 });
 
 module.exports = app;
