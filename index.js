@@ -1,4 +1,3 @@
-const express = require('express');
 const schedule = require('node-schedule');
 const axios = require('axios');
 const dayjs = require('dayjs');
@@ -8,7 +7,6 @@ const config = require('./config');
 const serverKey = config.FCM_TOKEN;
 const fcm = new FCM(serverKey);
 
-const app = express();
 const priority = 'high';
 const time_to_live = 3;
 const content_available = true;
@@ -16,7 +14,7 @@ const mutable_content = true;
 const collapse_key = '';
 const mobile_os_code = 'I';
 let flag = 1; // 1이면 COM, 2면 REV
-const j = schedule.scheduleJob('0 0 21,23 * * *', async function () {
+const j = schedule.scheduleJob('0 0,30 * * * *', async function () {
   console.log(`시작 시각 ${dayjs().format('YYYY-MM-DD hh:mm:ss')} 입니다.`);
   if (flag === 1) {
     // 물주기 알림을 보내줄 APP_PUSH_USER 정보를 가져옵니다.
@@ -127,5 +125,3 @@ const j = schedule.scheduleJob('0 0 21,23 * * *', async function () {
   }
   console.log(`시작 시각 ${dayjs().format('YYYY-MM-DD hh:mm:ss')} 입니다.`);
 });
-
-module.exports = app;
